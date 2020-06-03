@@ -46,12 +46,14 @@ class Restaurant
     private $restaurantPictures;
 
     /**
-     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="restaurant")
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="restaurant", orphanRemoval=true)
      */
     private $reviews;
 
+
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime());
         $this->restaurantPictures = new ArrayCollection();
         $this->reviews = new ArrayCollection();
     }
@@ -170,4 +172,5 @@ class Restaurant
 
         return $this;
     }
+
 }

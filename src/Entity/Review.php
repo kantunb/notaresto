@@ -35,11 +35,6 @@ class Review
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="reviews")
-     */
-    private $restaurant;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Review::class, inversedBy="childs")
      */
     private $parent;
@@ -49,8 +44,15 @@ class Review
      */
     private $childs;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="reviews")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $restaurant;
+
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime());
         $this->childs = new ArrayCollection();
     }
 
@@ -95,18 +97,6 @@ class Review
         return $this;
     }
 
-    public function getRestaurant(): ?Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    public function setRestaurant(?Restaurant $restaurant): self
-    {
-        $this->restaurant = $restaurant;
-
-        return $this;
-    }
-
     public function getParent(): ?self
     {
         return $this->parent;
@@ -146,6 +136,18 @@ class Review
                 $child->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRestaurant(): ?Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurant $restaurant): self
+    {
+        $this->restaurant = $restaurant;
 
         return $this;
     }
