@@ -32,6 +32,11 @@ class Review
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="reviews")
+     */
+    private $restaurant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Review
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getRestaurant(): ?Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurant $restaurant): self
+    {
+        $this->restaurant = $restaurant;
 
         return $this;
     }
