@@ -29,11 +29,14 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         /**
          * On va créer 7000 reviews initiales
          */
+
+        $restaurant = $this->restaurantRepository->find(rand(1,1000));
+
         for ($i = 0; $i <= 7000; $i++) {
             $review = new Review();
             $review->setMessage($faker->text(800));
             $review->setRating(rand(0, 5));
-            $review->setRestaurant($this->restaurantRepository->find(rand(1, 1000)));
+            $review->setRestaurant($restaurant);
             $manager->persist($review);
         }
 
@@ -45,11 +48,14 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         /**
          * On crée 3000 avis enfants dont le parents est une review initiales)
          */
+
+        $review = $this->reviewRepository->find(rand(1,7000));
+        
         for ($i = 0; $i <= 3000; $i++) {
             $review = new Review();
             $review->setMessage($faker->text(800));
             $review->setRating(rand(0, 5));
-            $review->setParent($this->reviewRepository->find(rand(1, 7000)));
+            $review->setParent($review);
             $review->setRestaurant($review->getParent()->getRestaurant());
             $manager->persist($review);
         }

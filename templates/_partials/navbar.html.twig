@@ -1,0 +1,19 @@
+<header>
+	<div class="navbar navbar-dark bg-dark shadow-sm">
+		<div class="container d-flex">
+			<a href="/" class="navbar-brand pl-2">
+				<p>Accueil</p>
+			</a>
+			<a href="{{ path('restaurant_index') }}" class="navbar-brand pl-2">
+				<p>Restaurants</p>
+			</a>
+			<a href="{{ path('city_index') }}" class="navbar-brand pl-2">
+				<p>Villes</p>
+			</a>
+			{# <form class="form-group d-flex ml-auto" method="GET" action="{{ path('search') }}">
+				<input type="text" name="q" class="form-control mr-2" placeholder="search" aria-describedby="search field">
+                <button class="btn btn-primary">Search</button>               
+			</form> #}
+		</div>
+	</div>
+</header>

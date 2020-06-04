@@ -24,10 +24,13 @@ class RestaurantFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         for($i=0; $i < 1000; $i++) {
+
+            $city = $this->cityRepository->find(rand(1, 1000));
+
             $restaurant = new Restaurant();
             $restaurant->setName( $faker->company );
             $restaurant->setDescription( $faker->text(500) );
-            $restaurant->setCity( $this->cityRepository->find( rand(1,1000) ) );
+            $restaurant->setCity($city);
 
             $manager->persist($restaurant);
         }
@@ -38,8 +41,8 @@ class RestaurantFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(
+        return [
             CityFixtures::class,
-        );
+        ];
     }
 }
