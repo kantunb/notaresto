@@ -10,16 +10,24 @@
 			<a href="{{ path('city_index') }}" class="navbar-brand pl-2">
 				<p>Villes</p>
 			</a>
-			<a href="{{ path('app_register') }}" class="navbar-brand pl-2 ml-auto">
-				<p>S'inscrire</p>
-			</a>
-			<a href="{{ path('app_login') }}" class="navbar-brand pl-2">
-				<p>Se Connecter</p>
-			</a>
+			{% if app.user is null %}
+				<a href="{{ path('app_register') }}" class="navbar-brand pl-2 ml-auto">
+					<p>S'inscrire</p>
+				</a>
+				<a href="{{ path('app_login') }}" class="navbar-brand pl-2">
+					<p>Se Connecter</p>
+				</a>
+				{% else %}
+					<p class="navbar-brand pl-2 ml-auto"> Welcome {{ app.user.email }}</p>
+					<a href="{{ path('app_logout') }}" class="navbar-brand pl-2">
+					<p>Me Déconnecter</p>
+				</a>
+			{% endif %}
+
 			{# <form class="form-group d-flex ml-auto" method="GET" action="{{ path('search') }}">
-				<input type="text" name="q" class="form-control mr-2" placeholder="search" aria-describedby="search field">
-                <button class="btn btn-primary">Search</button>               
-			</form> #}
+										<input type="text" name="q" class="form-control mr-2" placeholder="search" aria-describedby="search field">
+						                <button class="btn btn-primary">Search</button>               
+									</form> #}
 		</div>
 	</div>
 </header>
