@@ -1,6 +1,6 @@
 <header>
 	<div class="navbar navbar-dark bg-dark shadow-sm">
-		<div class="container d-flex">
+		<div class="container d-flex justify-content-start">
 			<a href="/" class="navbar-brand pl-2">
 				<p>Accueil</p>
 			</a>
@@ -9,6 +9,12 @@
 			</a>
 			<a href="{{ path('city_index') }}" class="navbar-brand pl-2">
 				<p>Villes</p>
+			</a>
+			<a href="{{ path('app_register') }}" class="navbar-brand pl-2 ml-auto">
+				<p>S'inscrire</p>
+			</a>
+			<a href="{{ path('app_login') }}" class="navbar-brand pl-2">
+				<p>Se Connecter</p>
 			</a>
 			{# <form class="form-group d-flex ml-auto" method="GET" action="{{ path('search') }}">
 				<input type="text" name="q" class="form-control mr-2" placeholder="search" aria-describedby="search field">
