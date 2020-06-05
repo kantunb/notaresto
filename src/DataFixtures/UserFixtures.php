@@ -29,7 +29,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $faker = Factory::create('fr_FR');
 
         //Create Owner
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 100; $i++) { 
             $userOwner = new User();
             $userOwner->setEmail( $faker->unique()->email );
             $userOwner->setRoles( ['ROLE_OWNER'] );

@@ -14,7 +14,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 
-class ReviewFixtures extends Fixture implements FixtureGroupInterface
+class ReviewFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     private $restaurantRepository;
     private $reviewRepository;
@@ -39,17 +39,14 @@ public static function getGroups(): array
          * On va créer 7000 reviews initiales
          */
 
-        $rand = rand(1,10);
 
-        $restaurant = $this->restaurantRepository->find(1);
-        $user = $this->userRepository->find(rand(1,10));
+        for ($i = 0; $i < 3000; $i++) {
 
-        if ($restaurant == null) {
-            dd($rand);
-        }
-        for ($i = 0; $i <= 700; $i++) {
+            $restaurant = $this->restaurantRepository->find(rand(1,1000));
+            $user = $this->userRepository->find(rand(1,100));
+    
             $review = new Review();
-            $review->setMessage($faker->text(800));
+            $review->setMessage($faker->realtext(800));
             $review->setRating(rand(0, 5));
             $review->setRestaurant($restaurant);
             $review->setUser($user);
@@ -65,14 +62,14 @@ public static function getGroups(): array
          * On crée 3000 avis enfants dont le parents est une review initiales)
          */
 
-        $review = $this->reviewRepository->find(rand(1,7000));
-        $user = $this->userRepository->find(rand(1,10));
+        $review = $this->reviewRepository->find(rand(1,3000));
+        $user = $this->userRepository->find(rand(1, 100));
         
-        for ($i = 0; $i <= 3000; $i++) {
+        for ($i = 0; $i <= 1000; $i++) {
             $review = new Review();
-            $review->setMessage($faker->text(800));
+            $review->setMessage($faker->realtext(400));
             $review->setRating(rand(0, 5));
-            $review->setParent($review);
+            $review->setParent($this->reviewRepository->find(rand(1, 3000)));
             $review->setRestaurant($review->getParent()->getRestaurant());
             $review->setUser($user);
             $manager->persist($review);
@@ -84,10 +81,10 @@ public static function getGroups(): array
         $manager->flush();
     }
 
-    // public function getDependencies()
-    // {
-    //     return array(
-    //         RestaurantFixtures::class,
-    //     );
-    // }
+    public function getDependencies()
+    {
+        return array(
+            RestaurantFixtures::class,
+        );
+    }
 }

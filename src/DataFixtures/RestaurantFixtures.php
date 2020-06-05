@@ -12,7 +12,7 @@ use Doctrine\Migrations\Version\Factory as VersionFactory;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class RestaurantFixtures extends Fixture implements FixtureGroupInterface
+class RestaurantFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     private $cityRepository;
     private $userRepository;
@@ -36,7 +36,7 @@ class RestaurantFixtures extends Fixture implements FixtureGroupInterface
         for($i=0; $i < 1000; $i++) {
 
             $city = $this->cityRepository->find(rand(1, 1000));
-            $user = $this->userRepository->find(rand(1,10));
+            $user = $this->userRepository->find(rand(1,100));
 
             $restaurant = new Restaurant();
             $restaurant->setName( $faker->company );
@@ -51,11 +51,11 @@ class RestaurantFixtures extends Fixture implements FixtureGroupInterface
         $manager->flush();
     }
 
-    // public function getDependencies()
-    // {
-    //     return [
-    //         CityFixtures::class,
-    //         UserFixtures::class,
-    //     ];
-    // }
+    public function getDependencies()
+    {
+        return [
+            CityFixtures::class,
+            UserFixtures::class,
+        ];
+    }
 }

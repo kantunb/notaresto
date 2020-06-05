@@ -14,11 +14,9 @@ class AppController extends AbstractController
     /**
      * @Route("/", name="app_index", methods={"GET"})
      */
-
     public function index()
     {
         $restaurantRepository = $this->getDoctrine()->getRepository(Restaurant::class);
-        dd($restaurantRepository->find(1));
         $restaurant = $restaurantRepository->findLastCreatedRestaurants(10);
         
         return $this->render('app/index.html.twig', [ 'restaurants' => $restaurant]);
