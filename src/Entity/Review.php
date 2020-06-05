@@ -50,6 +50,12 @@ class Review
      */
     private $restaurant;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="review")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -148,6 +154,18 @@ class Review
     public function setRestaurant(?Restaurant $restaurant): self
     {
         $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -4,12 +4,19 @@ namespace App\DataFixtures;
 
 use App\Entity\City;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 
-class CityFixtures extends Fixture
+class CityFixtures extends Fixture implements FixtureGroupInterface
 {
+    public static function getGroups(): array
+    {
+        return ['group1'];
+    }
+
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');

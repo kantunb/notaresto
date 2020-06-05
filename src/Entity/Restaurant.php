@@ -51,6 +51,12 @@ class Restaurant
      */
     private $reviews;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="restaurant")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
 
     public function __construct()
     {
@@ -192,6 +198,18 @@ class Restaurant
         
         return null;
 
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
 }

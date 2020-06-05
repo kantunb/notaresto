@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,22 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Restaurant::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $restaurant;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $review;
+
+    public function __construct()
+    {
+        $this->restaurant = new ArrayCollection();
+        $this->review = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,6 +145,68 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Restaurant[]
+     */
+    public function getRestaurant(): Collection
+    {
+        return $this->restaurant;
+    }
+
+    public function addRestaurant(Restaurant $restaurant): self
+    {
+        if (!$this->restaurant->contains($restaurant)) {
+            $this->restaurant[] = $restaurant;
+            $restaurant->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRestaurant(Restaurant $restaurant): self
+    {
+        if ($this->restaurant->contains($restaurant)) {
+            $this->restaurant->removeElement($restaurant);
+            // set the owning side to null (unless already changed)
+            if ($restaurant->getUser() === $this) {
+                $restaurant->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Review[]
+     */
+    public function getReview(): Collection
+    {
+        return $this->review;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->review->contains($review)) {
+            $this->review[] = $review;
+            $review->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->review->contains($review)) {
+            $this->review->removeElement($review);
+            // set the owning side to null (unless already changed)
+            if ($review->getUser() === $this) {
+                $review->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -1,33 +1,36 @@
 <header>
-	<div class="navbar navbar-dark bg-dark shadow-sm">
-		<div class="container d-flex justify-content-start">
-			<a href="/" class="navbar-brand pl-2">
-				<p>Accueil</p>
-			</a>
-			<a href="{{ path('restaurant_index') }}" class="navbar-brand pl-2">
-				<p>Restaurants</p>
-			</a>
-			<a href="{{ path('city_index') }}" class="navbar-brand pl-2">
-				<p>Villes</p>
-			</a>
-			{% if app.user is null %}
-				<a href="{{ path('app_register') }}" class="navbar-brand pl-2 ml-auto">
-					<p>S'inscrire</p>
-				</a>
-				<a href="{{ path('app_login') }}" class="navbar-brand pl-2">
-					<p>Se Connecter</p>
-				</a>
-				{% else %}
-					<p class="navbar-brand pl-2 ml-auto"> Welcome {{ app.user.email }}</p>
-					<a href="{{ path('app_logout') }}" class="navbar-brand pl-2">
-					<p>Me Déconnecter</p>
-				</a>
-			{% endif %}
 
-			{# <form class="form-group d-flex ml-auto" method="GET" action="{{ path('search') }}">
-										<input type="text" name="q" class="form-control mr-2" placeholder="search" aria-describedby="search field">
-						                <button class="btn btn-primary">Search</button>               
-									</form> #}
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container d-flex justify-content-start">
+			<a class="navbar-brand" href="/">Accueil</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link" href="{{ path('restaurant_index') }}">Restaurants</a>
+					{# <a class="nav-item nav-link" href="#">Mes Restaurants</a>
+					<a class="nav-item nav-link" href="#">Ajouter un restaurants</a> #}
+					<a class="nav-item nav-link" href="{{ path('user_index') }}">Tous les utilisateurs</a>
+					<a class="nav-item nav-link disabled" href="#">Disabled</a>
+				</div>
+				<div class="navbar-nav ml-auto">
+					{% if app.user %}
+						<div class="d-flex justify-content-end ml-auto">
+							<p class="nav-item nav-link my-0">Welcome {{ app.user.email }}</p>
+							<a class="nav-item nav-link" href="{{ path('app_logout') }}" ><p class="my-0">Me Déconnecter</p></a>
+						</div>
+					{% else %}
+						<div class="d-flex justify-content-end ml-auto">
+							<a class="nav-item nav-link" href="{{ path('app_register') }}"><p class="my-0">S'inscrire</p></a>
+							<a class="nav-item nav-link" href="{{ path('app_login') }}"><p class="my-0">Se Connecter</p></a>
+					{% endif %}
+				</div>
+				<form class="form-group d-flex navbar-nav" method="GET" action="#nav">
+					<input type="text" class="form-control" name="zipcode" aria-describedby="Code Postal" placeholder="Code postal">
+				</form>
+				</div>
+			</div>
 		</div>
-	</div>
+	</nav>
 </header>

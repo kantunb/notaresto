@@ -19,11 +19,10 @@
         {% for restaurant in restaurants %}
             <tr>
                 <td>{{ restaurant.id }}</td>
-                <td>{{ restaurant.name }}</td>
+                <td><a href="{{ path('restaurant_show', {'id': restaurant.id}) }}">{{ restaurant.name }}</a></td>
                 <td>{{ restaurant.description }}</td>
                 <td>{{ restaurant.createdAt ? restaurant.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('restaurant_show', {'id': restaurant.id}) }}">show</a>
                     <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a>
                 </td>
             </tr>
