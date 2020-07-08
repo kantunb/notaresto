@@ -6,9 +6,11 @@ use App\Entity\Restaurant;
 use App\Form\RestaurantType;
 use App\Repository\RestaurantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/restaurant")
@@ -28,7 +30,7 @@ class RestaurantController extends AbstractController
     /**
      * @Route("/new", name="restaurant_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
         $restaurant = new Restaurant();
         $form = $this->createForm(RestaurantType::class, $restaurant);
@@ -36,6 +38,24 @@ class RestaurantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $imageFile = $form->get('image')->getData();
+
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $imageFile->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+
+                $restaurant->setImageFilename($newFilename);
+            }
+
             $entityManager->persist($restaurant);
             $entityManager->flush();
 

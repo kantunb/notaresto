@@ -31,6 +31,11 @@ class Restaurant
     private $description;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $imageFilename;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -90,6 +95,18 @@ class Restaurant
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImageFilename(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
